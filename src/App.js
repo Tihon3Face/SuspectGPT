@@ -211,14 +211,14 @@ function App() {
         // Your code here
     }, [scrollDown, subscribe, scrollDownSmooth, roleDefault, user.user, patchToAdmin])
 
-    const isMobileDevice = /Mobi/i.test(navigator.userAgent);
+    // const isMobileDevice = /Mobi/i.test(navigator.userAgent);
 
-    useEffect(() => {
-        const chat = document.getElementsByClassName('chat')[0];
-        if (isMobileDevice) {
-            chat.style.height = `100dvh`;
-        }
-    },[])
+    // useEffect(() => {
+    //     const chat = document.getElementsByClassName('chat')[0];
+    //     if (isMobileDevice) {
+    //         chat.style.height = `100dvh`;
+    //     }
+    // },[])
 
     return (
         <div className="App">
