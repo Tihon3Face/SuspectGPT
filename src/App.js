@@ -213,7 +213,7 @@ function App() {
                 <div className="top">
                     <h1>SuspectGPT</h1>
                 </div>
-                <div className="down" onClick={() => scrollDownSmooth()}><img src={down} className="down__png"/></div>
+                <div className="down" onClick={() => scrollDownSmooth()}><img src={down} alt="" className="down__png"/></div>
                 <div className="overflow">
                     <div className="messages">
                         {
@@ -250,7 +250,7 @@ function App() {
                             setUserMessages(prev => [...prev,value])
                             sendMessage(role)
                             setValue("");
-                        }}><img src={send}/></button>
+                        }}><img src={send} alt=""/></button>
                     </form>
                     <hr/> 
                 </div>
