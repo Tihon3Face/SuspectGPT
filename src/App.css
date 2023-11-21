@@ -1,38 +1,190 @@
-.App {
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+.App{
+  overflow: auto;
+  width:100vw;
+  height:100vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+h1{
   text-align: center;
+  color:white;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.chat{
+  overflow: hidden;
+  width:500px;
+  height:600px;
+  border: 2px solid teal;
+  border-radius: 10px;
+  position:relative;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.top{
+  padding:10px;
+  background-color:aqua;
+  border-bottom:2px solid teal;
+}
+.messages{
+  overflow: hidden;
+  width:100%;
+  padding: 3px 25px;
+  display:flex;
+  flex-direction: column;
+}
+@media (max-width:500px){
+  .messages{
+      padding: 3px 10px;
+  }
+  .chat{
+      height: 100vh;
+      border:none;
+      border-radius: 0;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@media (max-height: 600px){
+  .chat{
+      border-top:none;
+      border-bottom:none;
+      border-radius: 0;
+  }
+}
+@media (max-width:380px){
+  .messages{
+      padding: 3px 3px;
+  }
+}
+.overflow{
+  background: url('./images/background.png') ;
+  overflow: auto;
+  height:calc(100% - 119px);
+}
+.bottom{
+  position:absolute;
+  bottom:0;
+  height:60px;
+  width:100%;
+  z-index: 2;
+  background-color: aqua;
+  border-top:2px solid teal;
+  display:flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  flex-direction: column;
+}
+input{
+  width:100%;
+  color:black;
+  font-size: 17px;
+  padding:5px;
+  outline:0;
+  border:none;
+  background-color: aqua;
+}
+::placeholder {
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+form{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height:100%;
+}
+hr{
+  opacity:0;
+  border:1px solid white;
+  position:absolute;
+  bottom:0;
+  margin-bottom:8px;
+}
+img{
+  width:20px;
+  height:20px;
+  cursor:pointer;
+}
+.enter{
+  background-color: aqua;
+  outline:none;
+  border:none;
+}
+.down{
+  transform:rotateX(180deg);
+  position:absolute;
+  width:35px;
+  height:35px;
+  right:0;
+  bottom:0;
+  margin-right:3.5%;
+  z-index: 1;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:2px solid teal;
+  border-radius: 50%;
+  cursor:pointer;
+}
+.down__png{
+  width:70%;
+  height:70%;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  opacity:0;
+}
+::-webkit-scrollbar-thumb {
+  background-color:#bbbbbb;
+  border-radius: 10px;
+}
+@keyframes focus {
+  0%{
+      opacity:1;
+      width:0px;
+      height:2px;
+  }
+  100%{
+      opacity:1;
+      border:1px solid white;
+      width:90%;
+      height:2px;
+  }
+}
+@keyframes off-focus {
+  0%{
+      opacity:1;
+      width:90%;
+      height:2px;
+  }
+  100%{
+      opacity:1;
+      border:1px solid aqua;
+      width:0px;
+      height:2px;
+  }
+}
+@keyframes down {
+  100%{
+      margin-bottom:75px;
+  }
+}
+@keyframes down-back {
+  0%{
+      margin-bottom:75px;
+  }
+  100%{
+      margin-bottom:0px;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+
+
+@media (max-height:600px){
+  .chat{
+      height:100vh;
   }
 }
