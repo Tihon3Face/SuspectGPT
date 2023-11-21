@@ -192,7 +192,7 @@ function App() {
             patchToAdmin()
         }
     },[userMessages])
-    const [role,setRole] = useState(user.user ? user.user.role : undefined)
+    const role = user.user ? user.user.role : undefined
 
     useEffect(() => {
       setTimeout(() => scrollDownSmooth(),40)
@@ -206,6 +206,10 @@ function App() {
             setIsDisabled(false);
         }, 2000);
     },[userMessages.length])
+
+    useEffect(() => {
+        // Your code here
+    }, [scrollDown, subscribe, scrollDownSmooth, roleDefault, user.user, patchToAdmin])
 
     return (
         <div className="App">
