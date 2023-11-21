@@ -211,6 +211,24 @@ function App() {
         // Your code here
     }, [scrollDown, subscribe, scrollDownSmooth, roleDefault, user.user, patchToAdmin])
 
+    const isMobileDevice = /Mobi/i.test(navigator.userAgent);
+
+    useEffect(() => {
+        function mobBug () {
+            const chat = document.getElementsByClassName('chat')[0];
+            if (isMobileDevice) {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                chat.style.width = `${windowWidth}px`;
+                chat.style.height = `${windowHeight}px`;
+            }
+        }
+        window.addEventListener('resize', mobBug)
+        return () => {
+            window.removeEventListener('resize', mobBug)
+        }
+    })
+
     return (
         <div className="App">
             <div className="chat">
