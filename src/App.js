@@ -217,10 +217,7 @@ function App() {
         function mobBug () {
             const chat = document.getElementsByClassName('chat')[0];
             if (isMobileDevice) {
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-                chat.style.width = `${windowWidth}px`;
-                chat.style.height = `${windowHeight}px`;
+                chat.style.height = `100svh`;
             }
         }
         window.addEventListener('resize', mobBug)
