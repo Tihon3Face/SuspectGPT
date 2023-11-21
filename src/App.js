@@ -227,7 +227,7 @@ function App() {
         return () => {
             window.removeEventListener('resize', mobBug)
         }
-    })
+    },[])
 
     return (
         <div className="App">
