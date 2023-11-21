@@ -214,15 +214,9 @@ function App() {
     const isMobileDevice = /Mobi/i.test(navigator.userAgent);
 
     useEffect(() => {
-        function mobBug () {
-            const chat = document.getElementsByClassName('chat')[0];
-            if (isMobileDevice) {
-                chat.style.height = `100svh`;
-            }
-        }
-        window.addEventListener('resize', mobBug)
-        return () => {
-            window.removeEventListener('resize', mobBug)
+        const chat = document.getElementsByClassName('chat')[0];
+        if (isMobileDevice) {
+            chat.style.height = `100dvh`;
         }
     },[])
 
