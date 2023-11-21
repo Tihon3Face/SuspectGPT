@@ -198,6 +198,15 @@ function App() {
       setTimeout(() => scrollDownSmooth(),40)
     },[userMessages,messages])
 
+
+    const [isDisabled, setIsDisabled] = useState(false);
+    useEffect(() => {
+        setIsDisabled(true);
+        setTimeout(() => {
+            setIsDisabled(false);
+        }, 2000);
+    },[userMessages.length])
+
     return (
         <div className="App">
             <div className="chat">
@@ -233,7 +242,7 @@ function App() {
                             setValue(e.target.value);
                             focus(e)
                         }} placeholder="Введите сообщение"/>
-                        <button className="enter" onClick={(e) => {
+                        <button disabled={isDisabled} className="enter" onClick={(e) => {
                             e.preventDefault()
                             if(value.split(" ").join("") === ""){
                                 return;
