@@ -211,14 +211,23 @@ function App() {
         // Your code here
     }, [scrollDown, subscribe, scrollDownSmooth, roleDefault, user.user, patchToAdmin])
 
-    // const isMobileDevice = /Mobi/i.test(navigator.userAgent);
+    const isMobileDevice = /Mobi/i.test(navigator.userAgent);
 
-    // useEffect(() => {
-    //     const chat = document.getElementsByClassName('chat')[0];
-    //     if (isMobileDevice) {
-    //         chat.style.height = `100dvh`;
-    //     }
-    // },[])
+    useEffect(() => {
+        let originalHeight = window.innerHeight;
+        function aaa (){
+            const chat = document.getElementsByClassName('chat')[0];
+            if (isMobileDevice) {
+                const currentHeight = window.innerHeight;
+                const keyboardHeight = originalHeight - currentHeight;
+                console.log('Высота клавиатуры:', keyboardHeight);
+                chat.style.height = `calc(100vh - ${keyboardHeight}px)`;
+            }
+        }
+        return () => {
+
+        }
+    },[])
 
     return (
         <div className="App">
