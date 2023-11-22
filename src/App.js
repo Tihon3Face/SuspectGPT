@@ -224,8 +224,9 @@ function App() {
                 chat.style.height = `calc(100vh - ${keyboardHeight}px)`;
             }
         }
+        window.addEventListener('resize', aaa)
         return () => {
-
+            window.removeEventListener('resize', aaa)
         }
     },[])
 
