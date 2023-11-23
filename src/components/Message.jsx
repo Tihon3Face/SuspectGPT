@@ -36,7 +36,11 @@ function Message({message,id,userData,hide,changeIsHidden,role,ownRole,roleOfCha
             {
                 role === 'Царь'
                 ?
-                ownRole === 'Царь' ? <button className='role button-pointer' onClick={() => changeRoleOfChat()}><pre>{roleOfChat}</pre></button> : <pre className='role'>{roleOfChat}</pre>
+                    ownRole === 'Царь'&& message.from === userData.id
+                    ?
+                    <button className='role button-pointer' onClick={() => changeRoleOfChat()}><pre>{roleOfChat}</pre></button>
+                    :
+                    <pre className='role'>{roleOfChat}</pre>
                 :
                 null
             }
