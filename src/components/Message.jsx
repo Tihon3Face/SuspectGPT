@@ -45,13 +45,17 @@ function Message({message,id,userData,hide,changeIsHidden,role,ownRole,roleOfCha
                 null
             }
             <pre className="message__style">{filterOfMessage}</pre>
-            {/* {
-                userData.id === '655599e0eba04f2fcd87c186'
+            {
+                userData
                 ?
-                message.from !== '655599e0eba04f2fcd87c186' ? <button className="delete" onClick={() => deleteMessage(message.from,message.id)}>Удалить</button> : null
+                    userData.id === '655f65c9823dfa84cf4ae815'
+                    ?
+                    message.from !== '655f65c9823dfa84cf4ae815' ? <button className="delete" onClick={() => deleteMessage(message.from,message.id)}>Удалить</button> : null
+                    :
+                    null
                 :
                 null
-            } */}
+            }
             {
                 id === '000'
                 ?

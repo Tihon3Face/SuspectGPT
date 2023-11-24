@@ -12,7 +12,7 @@ function App() {
     const changeIsHidden = () => {
         dispatch({type:'IS_HIDDEN', payload:true})
     }
-    const [messages,setMessages] = useState(!isHidden.isHidden ? [{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Сила в справедливости", id: '000'}] : [])
+    const [messages,setMessages] = useState(!isHidden.isHidden ? [{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат", id: '000'}] : [])
     const [value,setValue] = useState('');
     const [userMessages,setUserMessages] = useState([])
 
@@ -71,6 +71,7 @@ function App() {
     }
     useEffect(() => {
         scrollDown()
+        console.log(messages)
     },[messages])
     function hide () {
         setMessages(prev => prev.filter((item) => item.id !== '000'))
@@ -116,10 +117,36 @@ function App() {
 
 
 
+    const postUpdateArray = async () => {
+        try {
+            const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-update-array')
+        } catch (e) {
+            console.log('ну бялть', e)
+        }
+    }
+    const getUpdateArray = async () => {
+        try {
+            const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-update-array')
+            setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат", id: '000'}] : data)
+            
+            await getUpdateArray()
+        } catch (e) {
+            setTimeout(() => {
+                getUpdateArray()
+            },500)
+        }
+    }
+    useEffect(() => {
+        subscribe()
+        getUpdateArray()
+    },[])
+
+
+
     const subscribe = async () => {
         try {
             const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-message')
-            setMessages((prev) => [...prev,data])
+            setMessages((prev) => [...new Set([...prev,data])])
             await subscribe()
         } catch (e) {
             setTimeout(() => {
@@ -134,9 +161,9 @@ function App() {
         try {
             const response = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-messages')
             let arr = new Set([...response.data])
-            setMessages((prev) => [...arr,...prev])
+            setMessages((prev) => [...new Set([...arr,...prev])])
         } catch (e) {
-            console.log('ммм')
+            console.log('ммм',e)
         }
     }
     useEffect(() => {
@@ -146,15 +173,14 @@ function App() {
 
     async function deleteMessage (userId,id) {
         const some = messages.find((item) => item.from === userId && item.id === id);
-        console.log(messages)
         try{
-            const response = await axios.delete(`https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/delete-message/${some.id}`)
+            const response = await axios.delete(`https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/delete-message/${some.id}/${some.from}`)
+            await postUpdateArray()
             console.log('Устранён',response.data)
         }catch (e){
             console.log('Ну как так')
         }
     }
-
 
     const user = useSelector(state => state.user);
     const roleOfUser = (user) => {
@@ -196,7 +222,7 @@ function App() {
 
     useEffect(() => {
       setTimeout(() => scrollDownSmooth(),40)
-    },[userMessages,messages])
+    },[userMessages.length])
 
 
     const [isDisabled, setIsDisabled] = useState(false);
