@@ -48,9 +48,9 @@ function Message({message,id,userData,hide,changeIsHidden,role,ownRole,roleOfCha
             {
                 userData
                 ?
-                    userData.id === '655f65c9823dfa84cf4ae815'
+                    userData.id === '6560d6fe3fe891a7a53d849c' || userData.id === '6560d8dc3fe891a7a53d84a3'
                     ?
-                    message.from !== '655f65c9823dfa84cf4ae815' ? <button className="delete" onClick={() => deleteMessage(message.from,message.id)}>Удалить</button> : null
+                    message.from !== '6560d6fe3fe891a7a53d849c' ? <button className="delete" onClick={() => deleteMessage(message.from,message.id)}>Удалить</button> : null
                     :
                     null
                 :
