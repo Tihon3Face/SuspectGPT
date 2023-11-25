@@ -71,7 +71,6 @@ function App() {
     }
     useEffect(() => {
         scrollDown()
-        console.log(messages)
     },[messages])
     function hide () {
         setMessages(prev => prev.filter((item) => item.id !== '000'))
@@ -146,7 +145,7 @@ function App() {
     const subscribe = async () => {
         try {
             const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-message')
-            setMessages((prev) => [...new Set([...prev,data])])
+            setMessages((prev) => [...prev,...new Set([data])])
             await subscribe()
         } catch (e) {
             setTimeout(() => {
@@ -168,8 +167,10 @@ function App() {
     }
     useEffect(() => {
         getMessages()
-        setTimeout(() => scrollDownSmooth(),40)
     },[])
+    useEffect(() => {
+        setTimeout(() => scrollDownSmooth(),40)
+    },[messages.legth > 0])
 
     async function deleteMessage (userId,id) {
         const some = messages.find((item) => item.from === userId && item.id === id);
