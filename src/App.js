@@ -154,6 +154,9 @@ function App() {
         }
     }
     useEffect(() => {
+        setMessages((prev) => [...new Set([...prev])])
+    },[messages.length])
+    useEffect(() => {
         subscribe()
     },[])
     const getMessages = async () => {
