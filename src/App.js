@@ -173,7 +173,7 @@ function App() {
     },[])
     useEffect(() => {
         setTimeout(() => scrollDownSmooth(),40)
-    },[messages.legth > 0])
+    },[messages.length > 1])
 
     async function deleteMessage (userId,id) {
         const some = messages.find((item) => item.from === userId && item.id === id);
