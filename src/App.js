@@ -145,7 +145,7 @@ function App() {
     const subscribe = async () => {
         try {
             const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-message')
-            setMessages((prev) => [...prev,...new Set([data])])
+            setMessages((prev) => [...prev,...new Set([...data])])
             await subscribe()
         } catch (e) {
             setTimeout(() => {
@@ -233,29 +233,6 @@ function App() {
             setIsDisabled(false);
         }, 2000);
     },[userMessages.length])
-
-    useEffect(() => {
-        // Your code here
-    }, [scrollDown, subscribe, scrollDownSmooth, roleDefault, user.user, patchToAdmin])
-
-    const isMobileDevice = /Mobi/i.test(navigator.userAgent);
-
-    useEffect(() => {
-        let originalHeight = window.innerHeight;
-        function aaa (){
-            const chat = document.getElementsByClassName('chat')[0];
-            if (isMobileDevice) {
-                const currentHeight = window.innerHeight;
-                const keyboardHeight = originalHeight - currentHeight;
-                console.log('Высота клавиатуры:', keyboardHeight);
-                chat.style.height = `calc(100vh - ${keyboardHeight}px)`;
-            }
-        }
-        window.addEventListener('resize', aaa)
-        return () => {
-            window.removeEventListener('resize', aaa)
-        }
-    },[])
 
     return (
         <div className="App">
