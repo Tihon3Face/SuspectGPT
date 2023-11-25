@@ -145,7 +145,7 @@ function App() {
     const subscribe = async () => {
         try {
             const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-message')
-            setMessages((prev) => [...prev,...new Set([...data])])
+            setMessages((prev) => [...new Set([...prev,data])])
             await subscribe()
         } catch (e) {
             setTimeout(() => {
