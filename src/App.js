@@ -126,7 +126,7 @@ function App() {
     const getUpdateArray = async () => {
         try {
             const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-update-array')
-            setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат", id: '000'}] : data)
+            setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат(перезагрузите страницу, если не скрылось)", id: '000'}] : data)
             
             await getUpdateArray()
         } catch (e) {
@@ -154,10 +154,8 @@ function App() {
         }
     }
     useEffect(() => {
-        setMessages((prev) => [...new Set([...prev])])
-    },[messages.length])
-    useEffect(() => {
         subscribe()
+        setMessages((prev) => [...new Set([...prev])])
     },[])
     const getMessages = async () => {
         try {
@@ -170,6 +168,7 @@ function App() {
     }
     useEffect(() => {
         getMessages()
+        setMessages((prev) => [...new Set([...prev])])
     },[])
     useEffect(() => {
         setTimeout(() => scrollDownSmooth(),40)
@@ -237,6 +236,110 @@ function App() {
         }, 2000);
     },[userMessages.length])
 
+
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    useEffect(() => {
+        if(isMobile){
+            const scrollbar = document.documentElement.style
+            scrollbar.scrollbarWidth = 'none';
+            scrollbar.msOverflowStyle = 'none';
+            scrollbar.webkitOverflowScrolling = 'none';
+            scrollbar.overflow = 'hidden';
+        }
+    },[])
+
+    const [like,setLike] = useState([]);
+    const [dislike,setDislike] = useState([]);
+    function changeReputation (e) {
+        let index;
+        for (let i = 0; i < document.getElementsByClassName('message').length; i++) {
+            if (document.getElementsByClassName('message')[i] === e.target.closest('.message')) {
+              index = i;
+              break;
+            }
+          }
+        const message = document.getElementsByClassName('message')[index]
+        const section1 = document.getElementsByClassName('devide-sections')[index*2]
+        const section2 = document.getElementsByClassName('devide-sections')[index*2 + 1]
+        if(e.target.closest('.message') === message && e.target.closest('.devide-sections') === section1){
+            if(dislike.findIndex(item => item.mes === messages[index]) !== -1 && dislike[dislike.findIndex(item => item.mes === messages[index])].rep === true){
+                setDislike(prev => {
+                    return prev.map(item => {
+                        if(item === prev[dislike.findIndex(item1 => item1.mes === messages[index])]){
+                            return {rep: false, mes: messages[index]}
+                        }
+                        return item;
+                    })
+                })
+                section2.style.backgroundColor = 'white'
+            }
+            setLike(prev => {
+                if(prev.find(item => item.mes === messages[index]) !== undefined){
+                    section1.style.backgroundColor = 'white'
+                    return prev.map((item,id) => {
+                        if(id === prev.findIndex(item1 => item1.mes === messages[index])){
+                            if(!prev[prev.findIndex(item1 => item1.mes === messages[index])].rep){
+                                section1.style.backgroundColor = 'aqua'
+                            }else{
+                                section1.style.backgroundColor = 'white'
+                            }
+                            return {rep: !prev[prev.findIndex(item1 => item1.mes === messages[index])].rep, mes: messages[index]}
+                        }
+                        return item
+                    })
+                }
+                section1.style.backgroundColor = 'aqua'
+                return [...prev,{rep: true,mes: messages[index]}]
+            })
+        }
+        if(e.target.closest('.message') === message && e.target.closest('.devide-sections') === section2){
+            if(like.findIndex(item => item.mes === messages[index]) !== -1 && like[like.findIndex(item => item.mes === messages[index])].rep === true){
+                setLike(prev => {
+                    return prev.map(item => {
+                        if(item === prev[like.findIndex(item1 => item1.mes === messages[index])]){
+                            return {rep: false, mes: messages[index]}
+                        }
+                        return item;
+                    })
+                })
+                section1.style.backgroundColor = 'white'
+            }
+            setDislike(prev => {
+                if(prev.find(item => item.mes === messages[index]) !== undefined){
+                    section2.style.backgroundColor = 'white'
+                    return prev.map((item,id) => {
+                        if(id === prev.findIndex(item1 => item1.mes === messages[index])){
+                            if(!prev[prev.findIndex(item1 => item1.mes === messages[index])].rep){
+                                section2.style.backgroundColor = 'aqua'
+                            }else{
+                                section2.style.backgroundColor = 'white'
+                            }
+                            return {rep: !prev[prev.findIndex(item1 => item1.mes === messages[index])].rep, mes: messages[index]}
+                        }
+                        return item;
+                    })
+                }
+                section2.style.backgroundColor = 'aqua'
+                return [...prev,{rep: true,mes: messages[index]}]
+            })
+        }
+    }
+    useEffect(() => {
+        const chat = document.getElementsByClassName('chat')[0]
+        chat.addEventListener('click', changeReputation)
+        return () => {
+            chat.removeEventListener('click', changeReputation)
+        }
+    },[messages.length,like,dislike])
+
+
+    useEffect(() => {
+        setMessages((prev) => [...new Set([...prev])]);
+    },[messages.length])
+
+    
     return (
         <div className="App">
             <div className="chat">
@@ -247,10 +350,11 @@ function App() {
                 <div className="overflow">
                     <div className="messages">
                         {
-                            messages.map((item,id) =>
+                            [...new Set(messages)].map((item,id) =>
                                 <Message
                                     message={item}
                                     key={id}
+                                    numOfMessage={id}
                                     id={item.id}
                                     userData={user.user}
                                     hide={hide}
@@ -260,6 +364,9 @@ function App() {
                                     roleOfChat={item.roleOfChat ? item.roleOfChat : undefined}
                                     changeRoleOfChat={changeRoleOfChat}
                                     deleteMessage={deleteMessage}
+                                    changeReputation={changeReputation}
+                                    like={like}
+                                    dislike={dislike}
                                 />
                             )
                         }
@@ -282,7 +389,7 @@ function App() {
                             setValue("");
                         }}><img src={send} alt=""/></button>
                     </form>
-                    <hr/> 
+                    <hr className='hr-is-entered'/> 
                 </div>
             </div>
         </div>
