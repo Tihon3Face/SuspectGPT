@@ -36,7 +36,59 @@
     float:right;
 }
 
+.reputation{
+    position: relative;
+    background-color: white;
+    border:1px solid teal;
+    border-radius:5px;
+    width:fit-content;
+    height:fit-content;
+    margin-top:10px;
+    align-items: center;
+    display:flex;
+    justify-content: space-between;
+    float:right;
+}
+.reputation__value{
+    color:teal;
+    font-weight: bold;
+}
+.devide-sections{
+    cursor:pointer;
+    align-items: center;
+    display:flex;
+    justify-content: space-between;
+    height:100%;
+    padding:5px;
+}
+.section-1{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid teal;
+}
+.section-2{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+
+
 @media (max-width:500px){
+    .devide-sections{
+        padding:5px;
+    }
+    .reputation{
+        margin-top: 10px;
+    }
+    .reputation__img{
+        width:20px;
+        height:20px;
+    }
+    .reputation__value{
+        font-weight: bold;
+        font-size:13.5px
+    }
     .role{
         font-weight: bold;
         font-size:13.5px
@@ -46,6 +98,20 @@
     }
 }
 @media (max-width:440px){
+    .devide-sections{
+        padding:4px;
+    }
+    .reputation{
+        margin-top: 7px;
+    }
+    .reputation__img{
+        width:18px;
+        height:18px;
+    }
+    .reputation__value{
+        font-weight: bold;
+        font-size:12px
+    }
     .role{
         font-weight: bold;
         font-size:12px
@@ -55,6 +121,20 @@
     }
 }
 @media (max-width:380px){
+    .devide-sections{
+        padding:3px;
+    }
+    .reputation{
+        margin-top: 4px;
+    }
+    .reputation__img{
+        width:16px;
+        height:16px;
+    }
+    .reputation__value{
+        font-weight: bold;
+        font-size:10.5px
+    }
     .role{
         font-weight: bold;
         font-size:10.5px
