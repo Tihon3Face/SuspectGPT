@@ -32,6 +32,20 @@
     margin:5px;
 }
 .delete{
+    font-size: 15px;
+    padding:5px;
+    cursor:pointer;
+    margin-left:5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:32px;
+    background-color: white;
+    margin-top: 10px;
+    border-radius: 5px;
+    color:teal;
+    font-weight: bold;
+    border: 1px solid teal;
     z-index: 4;
     float:right;
 }
@@ -57,7 +71,7 @@
     cursor:pointer;
     align-items: center;
     display:flex;
-    justify-content: space-between;
+    justify-content: center;
     height:100%;
     padding:5px;
 }
@@ -70,13 +84,47 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
+.box-of-loader{
+    position: relative;
+    background-color: white;
+    border:1px solid teal;
+    border-radius:5px;
+    width:fit-content;
+    height:fit-content;
+    margin-top:10px;
+    align-items: center;
+    display:flex;
+    justify-content: space-between;
+    float:right;
+}
+.block-it{
+    cursor:not-allowed;
+}
+.blocked{
+    cursor:not-allowed;
+    align-items: center;
+    display:flex;
+    justify-content: center;
+    height:100%;
+    padding:5px;
+}
 
 
 
 @media (max-width:500px){
+    .delete{
+        font-size:13.5px;
+        height:32px;
+        margin-top:10px;
+    }
+    .blocked{
+        padding:5px;
+    }
     .devide-sections{
         padding:5px;
+    }
+    .box-of-loader{
+        margin-top: 10px;
     }
     .reputation{
         margin-top: 10px;
@@ -98,10 +146,21 @@
     }
 }
 @media (max-width:440px){
+    .delete{
+        font-size:12px;
+        height:28px;
+        margin-top:7px;
+    }
     .devide-sections{
         padding:4px;
     }
+    .blocked{
+        padding:4px;
+    }
     .reputation{
+        margin-top: 7px;
+    }
+    .box-of-loader{
         margin-top: 7px;
     }
     .reputation__img{
@@ -121,10 +180,21 @@
     }
 }
 @media (max-width:380px){
+    .delete{
+        font-size:10.5px;
+        height:24px;
+        margin-top:4px;
+    }
+    .blocked{
+        padding:3px;
+    }
     .devide-sections{
         padding:3px;
     }
     .reputation{
+        margin-top: 4px;
+    }
+    .box-of-loader{
         margin-top: 4px;
     }
     .reputation__img{

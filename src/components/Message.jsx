@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./Message.css"
 import agree from '../images/agree.png'
 import disagree from '../images/disagree.png'
 import clickedagree from '../images/clickedagree.png'
 import clickeddisagree from '../images/clickeddisagree.png'
 
-function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownRole,roleOfChat,changeRoleOfChat,deleteMessage,like,dislike}) {
+function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownRole,roleOfChat,changeRoleOfChat,deleteMessage,likes,dislikes,loader}) {
     const [lengthOfLine,setLengthOfLine] = useState()
     useEffect(() => {
         function adaptive () {
@@ -21,8 +21,6 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
             window.removeEventListener('resize',adaptive)
         }
     },[])
-
-
     
     let filterOfMessage
     if(message.value !== undefined){
@@ -38,9 +36,6 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
             }
             filterOfMessage = resultArray.join('\n');
         }
-        const repOfLike = like.length === 0 || like.findIndex(item => item.mes === message) === -1 ? undefined : like[like.findIndex(item => item.mes === message)].rep
-        const repOfDislike = dislike.length === 0 || dislike.findIndex(item => item.mes === message) === -1 ? undefined : dislike[dislike.findIndex(item => item.mes === message)].rep
-
     return (
         <div className="message">
             {
@@ -58,29 +53,42 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
             {
                 userData
                 ?
-                    userData.id === '655f65c9823dfa84cf4ae815'
+                    userData.id === '6568bd8168b3f8667fea2a83'  || userData.id === '656a2c690a0435ad1cb50659'
                     ?
-                    message.from !== '655f65c9823dfa84cf4ae815' ? <button className="delete" onClick={() => deleteMessage(message.from,message.id)}>Удалить</button> : null
+                        id !== '000'
+                        ?
+                            <button className="delete" onClick={() => deleteMessage(message.from,message.id)}>Удалить</button>
+                        :
+                        null
                     :
                     null
                 :
                 null
             }
-            {
-                id !== '000'
+            {   
+                loader && id !== '000'
                 ?
-                <div className='reputation'>
-                    <div className='devide-sections section-1'>
-                        <pre className='reputation__value'>{message.likes}</pre>
-                        <img src={repOfLike ? clickedagree : agree} alt="Согласие" title="Согласие" className='reputation__img'/>
+                <div className='box-of-loader'>
+                    <div className='blocked section-1 block-it' style={likes ? {backgroundColor: 'aqua'} : {backgroundColor: 'white'}}>
+                        <pre className='reputation__value block-it'>{message.likes}</pre>
+                        <img src={likes ? clickedagree : agree} alt="Согласие" title="Согласие" className='reputation__img block-it'/>
                     </div>
-                    <div className='devide-sections section-2'>
-                        <pre className='reputation__value'>{message.dislikes}</pre>
-                        <img src={repOfDislike ? clickeddisagree : disagree} alt="Не согласие" title="Не cогласие" className='reputation__img'/>
+                    <div className='blocked section-2 block-it' style={dislikes ? {backgroundColor: 'aqua'} : {backgroundColor: 'white'}}>
+                        <pre className='reputation__value block-it'>{message.dislikes}</pre>
+                        <img src={dislikes ? clickeddisagree : disagree} alt="Не согласие" title="Не cогласие" className='reputation__img block-it'/>
                     </div>
                 </div>
                 :
-                null
+                <div className='reputation' style={id === '000' ? {display:'none'} : null}>
+                    <div className='devide-sections section-1' style={likes ? {backgroundColor: 'aqua'} : {backgroundColor: 'white'}}>
+                        <pre className='reputation__value'>{message.likes}</pre>
+                        <img src={likes ? clickedagree : agree} alt="Согласие" title="Согласие" className='reputation__img'/>
+                    </div>
+                    <div className='devide-sections section-2' style={dislikes ? {backgroundColor: 'aqua'} : {backgroundColor: 'white'}}>
+                        <pre className='reputation__value'>{message.dislikes}</pre>
+                        <img src={dislikes ? clickeddisagree : disagree} alt="Не согласие" title="Не cогласие" className='reputation__img'/>
+                    </div>
+                </div>
             }
             {
                 id === '000'
