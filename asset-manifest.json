@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/SuspectGPT/static/css/main.f554b9b5.css",
-    "main.js": "/SuspectGPT/static/js/main.d75ad163.js",
+    "main.js": "/SuspectGPT/static/js/main.75a3e414.js",
     "static/media/background.png": "/SuspectGPT/static/media/background.01c06699ed11653722e6.png",
     "index.html": "/SuspectGPT/index.html",
     "main.f554b9b5.css.map": "/SuspectGPT/static/css/main.f554b9b5.css.map",
-    "main.d75ad163.js.map": "/SuspectGPT/static/js/main.d75ad163.js.map"
+    "main.75a3e414.js.map": "/SuspectGPT/static/js/main.75a3e414.js.map"
   },
   "entrypoints": [
     "static/css/main.f554b9b5.css",
-    "static/js/main.d75ad163.js"
+    "static/js/main.75a3e414.js"
   ]
 }
