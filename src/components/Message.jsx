@@ -53,7 +53,7 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
             {
                 userData
                 ?
-                    userData.id === '6568bd8168b3f8667fea2a83'  || userData.id === '656a2c690a0435ad1cb50659'
+                    userData.id === '658c72fd00fc9b9a61adc901'  || userData.id === '656a2c690a0435ad1cb50659'
                     ?
                         id !== '000'
                         ?

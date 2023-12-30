@@ -34,8 +34,8 @@ function App() {
     function scrollDownSmooth () {
         const overflow = document.getElementsByClassName('overflow')[0];
         overflow.scrollBy({
-            top: overflow.clientHeight + 500*(messages.length + 1),
-            behavior: 'smooth'
+            top: overflow.clientHeight + 1500*(messages.length + 1),
+            behavior: 'smooth',
         })
     }
 
@@ -244,13 +244,25 @@ function App() {
         dispatch({type:'DISLIKES_MANAGER', payload: []})
     }
     
+    const [loader,setLoader] = useState(false) 
     const addLike = async (prev,prev1,messages,index,section1) => {
+        setLoader(true)
         if(prev.find(item => {
             const valuesObj1 = Object.values(item.mes).slice(0, 4);
             const valuesObj2 = Object.values(messages[index]).slice(0, 4);
             return JSON.stringify(valuesObj1) === JSON.stringify(valuesObj2)
         })){
             let newa = prev
+            await dispatch({type:'LIKES_MANAGER', payload: prev.map((item,id) => {
+                if(id === prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))){
+                    let reput = !prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))].rep
+                    return {
+                        rep: reput,
+                        mes: reput ? {...messages[index],dislikes: messages[index].likes + 1} : {...messages[index],likes: messages[index].likes - 1}
+                    }
+                }
+                return item
+            })})
             await commitRep(newa.map((item,id) => {
                 if(id === newa.findIndex(item1 => {
                     const valuesObj1 = Object.values(item1.mes).slice(0, 4);
@@ -261,7 +273,37 @@ function App() {
                 }
                 return item
             }),messages[index],'likes')
-            dispatch({type:'LIKES_MANAGER', payload: prev.map((item,id) => {
+        }else{
+            await dispatch({type:'LIKES_MANAGER', payload:[...prev,{rep: true,mes: messages[index]}]})
+            await commitRep([...prev,{rep: true,mes: messages[index]}],messages[index],'likes')
+        }
+    }
+    const changeChooseOfLike = async (prev,prev1,messages,index,section1) => {
+        setLoader(true)
+        let newa = prev
+        await dispatch({type:'LIKES_MANAGER', payload: prev.map(item => {
+            if(item === prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
+                return {rep: false, mes: {...messages[index],likes: messages[index].likes - 1}}
+            }
+            return item;
+        })})
+        await commitRep(newa.map(item => {
+            if(item === newa[newa.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
+                return {rep: false, mes: messages[index]}
+            }
+            return item;
+        }),messages[index],'changelikes')
+    }
+
+    const addDislike = async (prev,prev1,messages,index,section2) => {
+        setLoader(true)
+        if(prev.find(item => {
+            const valuesObj1 = Object.values(item.mes).slice(0, 4);
+            const valuesObj2 = Object.values(messages[index]).slice(0, 4);
+            return JSON.stringify(valuesObj1) === JSON.stringify(valuesObj2)
+        })){
+            let newa = prev
+            await dispatch({type:'DISLIKES_MANAGER', payload: prev.map((item,id) => {
                 if(id === prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))){
                     let reput = !prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))].rep
                     return {
@@ -271,34 +313,6 @@ function App() {
                 }
                 return item
             })})
-        }else{
-            await commitRep([...prev,{rep: true,mes: messages[index]}],messages[index],'likes')
-            dispatch({type:'LIKES_MANAGER', payload:[...prev,{rep: true,mes: messages[index]}]})
-        }
-    }
-    const changeChooseOfLike = async (prev,prev1,messages,index,section1) => {
-        let newa = prev
-        await commitRep(newa.map(item => {
-            if(item === newa[newa.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
-                return {rep: false, mes: messages[index]}
-            }
-            return item;
-        }),messages[index],'changelikes')
-        dispatch({type:'LIKES_MANAGER', payload: prev.map(item => {
-            if(item === prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
-                return {rep: false, mes: {...messages[index],likes: messages[index].likes - 1}}
-            }
-            return item;
-        })})
-    }
-
-    const addDislike = async (prev,prev1,messages,index,section2) => {
-        if(prev.find(item => {
-            const valuesObj1 = Object.values(item.mes).slice(0, 4);
-            const valuesObj2 = Object.values(messages[index]).slice(0, 4);
-            return JSON.stringify(valuesObj1) === JSON.stringify(valuesObj2)
-        })){
-            let newa = prev
             await commitRep(newa.map((item,id) => {
                 if(id === newa.findIndex(item1 => {
                     const valuesObj1 = Object.values(item1.mes).slice(0, 4);
@@ -309,44 +323,35 @@ function App() {
                 }
                 return item
             }),messages[index],'dislikes')
-            dispatch({type:'DISLIKES_MANAGER', payload: prev.map((item,id) => {
-                if(id === prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))){
-                    let reput = !prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))].rep
-                    return {
-                        rep: reput,
-                        mes: reput ? {...messages[index],dislikes: messages[index].likes + 1} : {...messages[index],likes: messages[index].likes - 1}
-                    }
-                }
-                return item
-            })})
         }else{
+            await dispatch({type:'DISLIKES_MANAGER', payload:[...prev,{rep: true,mes: messages[index]}]})
             await commitRep([...prev,{rep: true,mes: messages[index]}],messages[index],'dislikes')
-            dispatch({type:'DISLIKES_MANAGER', payload:[...prev,{rep: true,mes: messages[index]}]})
         }
     }
     const changeChooseOfDislike = async (prev,prev1,messages,index,section2) => {
+        setLoader(true)
         let newa = prev
+        await dispatch({type:'DISLIKES_MANAGER', payload: prev.map(item => {
+            if(item === prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
+                return {rep: false, mes: {...messages[index],dislikes: messages[index].dislikes - 1}}
+            }
+            return item;
+        })})
         await commitRep(newa.map(item => {
             if(item === newa[newa.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
                 return {rep: false, mes: messages[index]}
             }
             return item;
         }),messages[index],'changedislikes')
-        dispatch({type:'DISLIKES_MANAGER', payload: prev.map(item => {
-            if(item === prev[prev.findIndex(item1 => JSON.stringify(Object.values(item1.mes).slice(0,4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))]){
-                return {rep: false, mes: {...messages[index],dislikes: messages[index].dislikes - 1}}
-            }
-            return item;
-        })})
     }
 
-    const [loader,setLoader] = useState(false) 
+
     const commitRep = async (repu,mes,def) => {
         const some = repu.find(item => JSON.stringify(item.mes) === JSON.stringify(mes));
         try{
             const response = await axios.patch(`https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/commit-rep/${some.rep}/${JSON.stringify(some.mes)}/${def}`)
             await postUpdateArray()
-            setTimeout(() => setLoader(false),1000)
+            setTimeout(() => setLoader(false),3000)
         }catch (e){
             console.log(e)
         }
@@ -365,17 +370,19 @@ function App() {
         const section1 = document.getElementsByClassName('devide-sections')[index*2]
         const section2 = document.getElementsByClassName('devide-sections')[index*2 + 1]
         if(e.target.closest('.message') === message && e.target.closest('.devide-sections') === section1){
+            setLoader(true)
             if(dislikes.findIndex(item => JSON.stringify(Object.values(item.mes).slice(0, 4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4))) !== -1 && dislikes[dislikes.findIndex(item => JSON.stringify(Object.values(item.mes).slice(0, 4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))].rep === true){
-                changeChooseOfDislike(dislikes,likes,messages,index,section2)
+                await changeChooseOfDislike(dislikes,likes,messages,index,section2)
             }
-            setLoader(true)
-            addLike(likes,dislikes,messages,index,section1)
+            await addLike(likes,dislikes,messages,index,section1)
+            setTimeout(() => setLoader(false),3000)
         }else if(e.target.closest('.message') === message && e.target.closest('.devide-sections') === section2){
-            if(likes.findIndex(item => JSON.stringify(Object.values(item.mes).slice(0, 4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4))) !== -1 && likes[likes.findIndex(item => JSON.stringify(Object.values(item.mes).slice(0, 4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))].rep === true){
-                changeChooseOfLike(likes,dislikes,messages,index,section1)
-            }
             setLoader(true)
-            addDislike(dislikes,likes,messages,index,section2)
+            if(likes.findIndex(item => JSON.stringify(Object.values(item.mes).slice(0, 4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4))) !== -1 && likes[likes.findIndex(item => JSON.stringify(Object.values(item.mes).slice(0, 4)) === JSON.stringify(Object.values(messages[index]).slice(0, 4)))].rep === true){
+                await changeChooseOfLike(likes,dislikes,messages,index,section1)
+            }
+            await addDislike(dislikes,likes,messages,index,section2)
+            setTimeout(() => setLoader(false),3000)
         }
     }
     useEffect(() => {
@@ -390,6 +397,7 @@ function App() {
     useEffect(() => {
         setMessages((prev) => [...new Set([...prev])]);
     },[messages.length])
+    
     
 
     return (
