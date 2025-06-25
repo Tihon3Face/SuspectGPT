@@ -4,6 +4,7 @@ import agree from '../images/agree.png'
 import disagree from '../images/disagree.png'
 import clickedagree from '../images/clickedagree.png'
 import clickeddisagree from '../images/clickeddisagree.png'
+import author from '../images/author.png'
 
 function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownRole,roleOfChat,changeRoleOfChat,deleteMessage,likes,dislikes,loader}) {
     const [lengthOfLine,setLengthOfLine] = useState()
@@ -43,9 +44,27 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
                 ?
                     ownRole === 'Царь'&& message.from === userData.id
                     ?
-                    <button className='role button-pointer' onClick={() => changeRoleOfChat()}><pre>{roleOfChat}</pre></button>
+                    <div className='identify'>
+                        <button className='role button-pointer' onClick={() => changeRoleOfChat()}><pre>{roleOfChat}</pre></button>
+                        {
+                            message.from === '659d916b02d80c8df9e08f67'  || message.from === '656a2c690a0435ad1cb50659' || message.from === 'SuspectBot'
+                            ?
+                            <img src={author} alt=""  style={{cursor:'default'}}/>
+                            :
+                            null
+                        }
+                    </div>
                     :
-                    <pre className='role'>{roleOfChat}</pre>
+                    <div className='identify'>
+                        <pre className='role'>{roleOfChat}</pre>
+                        {
+                            message.from === '659d916b02d80c8df9e08f67'  || message.from === '656a2c690a0435ad1cb50659' || message.from === 'SuspectBot'
+                            ?
+                            <img src={author} alt=""  style={{cursor:'default'}}/>
+                            :
+                            null
+                        }
+                    </div>
                 :
                 null
             }
@@ -53,7 +72,7 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
             {
                 userData
                 ?
-                    userData.id === '658c72fd00fc9b9a61adc901'  || userData.id === '656a2c690a0435ad1cb50659'
+                    userData.id === '659d916b02d80c8df9e08f67'  || userData.id === '656a2c690a0435ad1cb50659' || userData.id === 'SuspectBot'
                     ?
                         id !== '000'
                         ?

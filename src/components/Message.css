@@ -108,7 +108,11 @@
     height:100%;
     padding:5px;
 }
-
+.identify{
+    display:flex;
+    align-items: center;
+    gap:2px;
+}
 
 
 @media (max-width:500px){

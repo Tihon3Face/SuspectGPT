@@ -93,7 +93,7 @@ function App() {
 
     const sendMessage = async (role) => {
         if(role === 'Царь'){
-            await axios.post('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-message', {
+            await axios.post('https://suspectgpt-backend.onrender.com', {
                 role: role,
                 from: user.user.id,
                 value:value,
@@ -103,7 +103,8 @@ function App() {
                 dislikes: 0,
             })
         }else{
-            await axios.post('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-message', {
+            // https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-message
+            await axios.post('https://suspectgpt-backend.onrender.com', {
                 role: role,
                 from: user.user.id,
                 value:value,
@@ -118,14 +119,14 @@ function App() {
 
     const postUpdateArray = async () => {
         try {
-            const {data} = await axios.post('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-update-array')
+            const {data} = await axios.post('https://suspectgpt-backend.onrender.com')
         } catch (e) {
-            console.log('ну бялть', e)
+            console.log('ну ошибка', e)
         }
     }
     const getUpdateArray = async () => {
         try {
-            const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-update-array')
+            const {data} = await axios.get('https://suspectgpt-backend.onrender.com')
             setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат(перезагрузите страницу, если не скрылось)", id: '000'}] : data)
             
             await getUpdateArray()
@@ -218,7 +219,7 @@ function App() {
         }
     }
     useEffect(() => {
-        if(!(undefined === userMessages.find(item => item === 'suzpek321'))){
+        if(!(undefined === userMessages.find(item => item === 'promo321'))){
             patchToAdmin()
         }
     },[userMessages])
@@ -424,7 +425,6 @@ function App() {
                                     roleOfChat={item.roleOfChat ? item.roleOfChat : undefined}
                                     changeRoleOfChat={changeRoleOfChat}
                                     deleteMessage={deleteMessage}
-                                    changeReputation={changeReputation}
                                     likes={likes.length === 0 || likes.findIndex(item1 => {
                                         const valuesObj1 = Object.values(item1.mes).slice(0, 4);
                                         const valuesObj2 = Object.values(item).slice(0, 4);
@@ -455,7 +455,7 @@ function App() {
                             maxLength={
                                 user.user !== null
                                 ?
-                                user.user.id === '6568bd8168b3f8667fea2a83' || user.user.id === '656a2c690a0435ad1cb50659' ? '1000' : '100'
+                                user.user.id === '659d916b02d80c8df9e08f67' || user.user.id === '656a2c690a0435ad1cb50659' ? '1000' : '100'
                                 :
                                 '100'
                             } type="text" value={value} onChange={(e) => {
