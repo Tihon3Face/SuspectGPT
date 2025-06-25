@@ -12,7 +12,7 @@ function App() {
     const changeIsHidden = () => {
         dispatch({type:'IS_HIDDEN', payload:true})
     }
-    const [messages,setMessages] = useState(!isHidden.isHidden ? [{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат, введите 'promo321' чтобы получить ник и возможность менять его", id: '000'}] : [])
+    const [messages,setMessages] = useState(!isHidden.isHidden ? [{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в чат, введите 'promo321' чтобы получить ник и возможность менять его", id: '000'}] : [])
     const [value,setValue] = useState('');
     const [userMessages,setUserMessages] = useState([])
 
@@ -126,7 +126,7 @@ function App() {
     const getUpdateArray = async () => {
         try {
             const {data} = await axios.get('https://suspectgpt-backend.onrender.com/get-update-array')
-            setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат, введите 'promo321' чтобы получить ник и возможность менять его (перезагрузите страницу, если не скрылось)", id: '000'}] : data)
+            setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в чат, введите 'promo321' чтобы получить ник и возможность менять его (перезагрузите страницу, если не скрыли)", id: '000'}] : data)
             
             await getUpdateArray()
         } catch (e) {
