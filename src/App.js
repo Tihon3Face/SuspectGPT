@@ -454,7 +454,7 @@ function App() {
                             maxLength={
                                 user.user !== null
                                 ?
-                                user.user.id === '659d916b02d80c8df9e08f67' || user.user.id === '656a2c690a0435ad1cb50659' ? '1000' : '100'
+                                user.user.id === '685c755e0559d7ecb28b936c' ? '1000' : '100'
                                 :
                                 '100'
                             } type="text" value={value} onChange={(e) => {
