@@ -93,7 +93,7 @@ function App() {
 
     const sendMessage = async (role) => {
         if(role === 'Царь'){
-            await axios.post('https://suspectgpt-backend.onrender.com', {
+            await axios.post('https://suspectgpt-backend.onrender.com/post-message', {
                 role: role,
                 from: user.user.id,
                 value:value,
@@ -103,8 +103,7 @@ function App() {
                 dislikes: 0,
             })
         }else{
-            // https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-message
-            await axios.post('https://suspectgpt-backend.onrender.com', {
+            await axios.post('https://suspectgpt-backend.onrender.com/post-message', {
                 role: role,
                 from: user.user.id,
                 value:value,
@@ -119,14 +118,14 @@ function App() {
 
     const postUpdateArray = async () => {
         try {
-            const {data} = await axios.post('https://suspectgpt-backend.onrender.com')
+            const {data} = await axios.post('https://suspectgpt-backend.onrender.com/post-update-array')
         } catch (e) {
-            console.log('ну ошибка', e)
+            console.log('ну бялть', e)
         }
     }
     const getUpdateArray = async () => {
         try {
-            const {data} = await axios.get('https://suspectgpt-backend.onrender.com')
+            const {data} = await axios.get('https://suspectgpt-backend.onrender.com/get-update-array')
             setMessages(!isHidden.isHidden ? [...data,{role: 'Царь',roleOfChat: 'SuspectGPT',value:"Добро пожаловать в общий чат(перезагрузите страницу, если не скрылось)", id: '000'}] : data)
             
             await getUpdateArray()
@@ -144,7 +143,7 @@ function App() {
 
     const subscribe = async () => {
         try {
-            const {data} = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-message')
+            const {data} = await axios.get('https://suspectgpt-backend.onrender.com/get-message')
             setMessages((prev) => [...new Set([...prev,data])])
             console.log('есьб сооб')
             await subscribe()
@@ -161,7 +160,7 @@ function App() {
     },[])
     const getMessages = async () => {
         try {
-            const response = await axios.get('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/get-messages')
+            const response = await axios.get('https://suspectgpt-backend.onrender.com/get-messages')
             let arr = new Set([...response.data])
             setMessages((prev) => [...new Set([...arr,...prev])])
         } catch (e) {
@@ -179,7 +178,7 @@ function App() {
     async function deleteMessage (userId,id) {
         const some = messages.find((item) => item.from === userId && item.id === id);
         try{
-            const response = await axios.delete(`https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/delete-message/${some.id}/${some.from}`)
+            const response = await axios.delete(`https://suspectgpt-backend.onrender.com/delete-message/${some.id}/${some.from}`)
             await postUpdateArray()
             console.log('Устранён',response.data)
         }catch (e){
@@ -197,7 +196,7 @@ function App() {
             secret: "BekBebek2003"
         };
         try {
-            const response = await axios.post('https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/post-user', newUser);
+            const response = await axios.post('https://suspectgpt-backend.onrender.com/post-user', newUser);
             console.log('Пользователь успешно создан:', response.data);
             roleOfUser({role: response.data.role, id: response.data._id})
         } catch (error) {
@@ -211,7 +210,7 @@ function App() {
     },[])
     async function patchToAdmin () {
         try {
-            const response = await axios.patch(`https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/patch-user/${user.user.id}`, { role: 'Царь', secret: "BekBebek2003"});
+            const response = await axios.patch(`https://suspectgpt-backend.onrender.com/patch-user/${user.user.id}`, { role: 'Царь', secret: "BekBebek2003"});
             console.log('Роль пользователя успешно обновлена:', response.data);
             roleOfUser({role: response.data.role, roleOfChat: 'ChatGPT', id: response.data.id})  
         } catch (error) {
@@ -350,7 +349,7 @@ function App() {
     const commitRep = async (repu,mes,def) => {
         const some = repu.find(item => JSON.stringify(item.mes) === JSON.stringify(mes));
         try{
-            const response = await axios.patch(`https://guarded-fortress-70456-e9c44c34c91b.herokuapp.com/commit-rep/${some.rep}/${JSON.stringify(some.mes)}/${def}`)
+            const response = await axios.patch(`https://suspectgpt-backend.onrender.com/commit-rep/${some.rep}/${JSON.stringify(some.mes)}/${def}`)
             await postUpdateArray()
             setTimeout(() => setLoader(false),3000)
         }catch (e){
