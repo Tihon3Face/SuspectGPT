@@ -47,7 +47,7 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
                     <div className='identify'>
                         <button className='role button-pointer' onClick={() => changeRoleOfChat()}><pre>{roleOfChat}</pre></button>
                         {
-                            message.from === '685eb4ffc35fb40b6a0a988a'|| message.from === '685eb583c35fb40b6a0a9894' || message.from === 'SuspectBot'
+                            message.from === '685eb6f7c35fb40b6a0a9899'|| message.from === '685eb753c35fb40b6a0a98a0' || message.from === 'SuspectBot'
                             ?
                             <img src={author} alt=""  style={{cursor:'default'}}/>
                             :
@@ -58,7 +58,7 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
                     <div className='identify'>
                         <pre className='role'>{roleOfChat}</pre>
                         {
-                            message.from === '685eb4ffc35fb40b6a0a988a'|| message.from === '685eb583c35fb40b6a0a9894'|| message.from === 'SuspectBot'
+                            message.from === '685eb6f7c35fb40b6a0a9899'|| message.from === '685eb753c35fb40b6a0a98a0'|| message.from === 'SuspectBot'
                             ?
                             <img src={author} alt=""  style={{cursor:'default'}}/>
                             :
@@ -72,7 +72,7 @@ function Message({message,numOfMessage,id,userData,hide,changeIsHidden,role,ownR
             {
                 userData
                 ?
-                    userData.id === '685eb4ffc35fb40b6a0a988a'|| userData.id === '685eb583c35fb40b6a0a9894'|| userData.id === 'SuspectBot'
+                    userData.id === '685eb6f7c35fb40b6a0a9899'|| userData.id === '685eb753c35fb40b6a0a98a0'|| userData.id === 'SuspectBot'
                     ?
                         id !== '000'
                         ?
